@@ -4,6 +4,7 @@ const { client } = require('./client');
 
 async function dropTables() {
   console.log('Dropping All Tables...');
+  // refresh and delete anything in our database -> clears out our database
   // drop all tables, in the correct order
 
 }
@@ -11,6 +12,13 @@ async function dropTables() {
 async function createTables() {
   console.log("Starting to build tables...");
   // create all tables, in the correct order
+  // creating the empty templates in our database
+
+  // tell our fitness-dev database to make a Users table
+
+  // definte an activities table
+
+
 
 }
 
@@ -156,8 +164,11 @@ async function createInitialRoutineActivities() {
 async function rebuildDB() {
   try {
     client.connect();
+    // clear out everything in the db
     await dropTables();
+    // create the templates of what info we want in our db
     await createTables();
+    // the rest of tese functions just fills the above tables with information
     await createInitialUsers();
     await createInitialActivities();
     await createInitialRoutines();
