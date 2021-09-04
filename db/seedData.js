@@ -1,6 +1,13 @@
 // require in the database adapter functions as you write them (createUser, createActivity...)
 // const { } = require('./');
 const { client } = require("./client");
+const {
+  createUser,
+  getUser,
+  getUserById,
+  getUserByUsername,
+} = require("./users");
+//do we need to add users.js or db?
 
 async function dropTables() {
   try {
@@ -19,10 +26,7 @@ async function dropTables() {
     throw error;
   }
 }
-  // refresh and delete anything in our database -> clears out our database
- 
-
-
+// refresh and delete anything in our database -> clears out our database
 
 async function createTables() {
   try {
@@ -35,7 +39,7 @@ async function createTables() {
         password	VARCHAR(255)	NOT NULL
       );
     `);
-    
+
     await client.query(`
       CREATE TABLE activities(
         id SERIAL PRIMARY KEY,
@@ -66,24 +70,20 @@ async function createTables() {
     );
   `);
 
-    console.log('Finished constructing table!');
+    console.log("Finished constructing table!");
   } catch (error) {
-    console.error('Error constructing tables!');
+    console.error("Error constructing tables!");
 
     throw error;
   }
 }
-    
 
+// create all tables, in the correct order
+// creating the empty templates in our database
 
-  // create all tables, in the correct order
-  // creating the empty templates in our database
+// tell our fitness-dev database to make a Users table
 
-  // tell our fitness-dev database to make a Users table
-
-  // define an activities table
-
-
+// define an activities table
 
 /* 
 
@@ -269,9 +269,9 @@ async function rebuildDB() {
     await createTables();
     // the rest of tese functions just fills the above tables with information
     await createInitialUsers();
-    await createInitialActivities();
-    await createInitialRoutines();
-    await createInitialRoutineActivities();
+    // await createInitialActivities();
+    // await createInitialRoutines();
+    // await createInitialRoutineActivities();
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
