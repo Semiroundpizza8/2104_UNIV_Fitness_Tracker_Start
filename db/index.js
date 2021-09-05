@@ -3,8 +3,8 @@
 const {
   createUser,
   getUser,
-  getUserbyId,
-  getUserbyUsername,
+  getUserById,
+  getUserByUsername,
 } = require("./users");
 
 const {
@@ -21,8 +21,8 @@ const {
   getAllRoutines,
   getAllPublicRoutines,
   getAllRoutinesByUser,
-  getAllPublicRoutinesByUser,
-  getAllPublicRoutinesByActivity,
+  getPublicRoutinesByUser,
+  getPublicRoutinesByActivity,
   updateRoutine,
   destroyRoutine,
 } = require("./routines");
@@ -32,14 +32,14 @@ const {
   addActivityToRoutine,
   updateRoutineActivity,
   destroyRoutineActivity,
-  getRoutineActivityByRoutine,
+  getRoutineActivitiesByRoutine,
 } = require("./routine_activities");
 
 module.exports = {
   createUser,
   getUser,
-  getUserbyId,
-  getUserbyUsername,
+  getUserById,
+  getUserByUsername,
   createActivity,
   getAllActivities,
   getActivityById,
@@ -50,13 +50,13 @@ module.exports = {
   getAllRoutines,
   getAllPublicRoutines,
   getAllRoutinesByUser,
-  getAllPublicRoutinesByUser,
-  getAllPublicRoutinesByActivity,
+  getPublicRoutinesByUser,
+  getPublicRoutinesByActivity,
   updateRoutine,
   destroyRoutine,
   getRoutineActivityById,
   addActivityToRoutine,
   updateRoutineActivity,
   destroyRoutineActivity,
-  getRoutineActivityByRoutine,
+  getRoutineActivitiesByRoutine,
 };

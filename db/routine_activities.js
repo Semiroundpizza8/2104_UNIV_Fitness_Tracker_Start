@@ -1,46 +1,103 @@
-// async function getRoutineActivityById(){
-//     try {
+const { client } = require("./client");
 
-//     } catch (error) {
+async function getRoutineActivityById(id) {
+  try {
+    const {
+      rows: [routineActivity],
+    } = await client.query(
+      `
+        SELECT * FROM routine_activity
+        WHERE id = $1;        
+        `,
+      [id]
+    );
 
-//     }
-// };
+    return routineActivity;
+  } catch (error) {
+    throw error;
+  }
+}
 
-// async function addActivityToRoutine(){
-//     try {
+async function addActivityToRoutine({
+  routineId,
+  activityId,
+  count,
+  duration,
+}) {
+  try {
+    const {
+      rows: [routineActivity],
+    } = await client.query(
+      `
+        INSERT INTO routine_activity("routineId", "activityId", count, duration)
+        VALUES($1, $2, $3, $4)
+        RETURNING *; 
+        `[(routineId, activityId, count, duration)]
+    );
 
-//     } catch (error) {
+    return routineActivity;
+  } catch (error) {
+    throw error;
+  }
+}
 
-//     }
-// };
+async function updateRoutineActivity({ id, count, duration }) {
+  try {
+    const { rows: routineActivity } = await client.query(
+      `
+        UPDATE routine_activity
+        WHERE id = $1        
+        SET count = $2, duration = $3
+        `,
+      [id, count, duration]
+    );
 
-// async function updateRoutineActivity(){
-//     try {
+    return routineActivity;
+  } catch (error) {
+    throw error;
+  }
+}
 
-//     } catch (error) {
+async function destroyRoutineActivity(id) {
+  try {
+    const {
+      rows: [routineActivities],
+    } = await client.query(
+      `
+        DELETE FROM routine_activities
+        where id = $1
+        `,
+      [id]
+    );
 
-//     }
-// };
+    return routineActivities;
+  } catch (error) {
+    throw error;
+  }
+}
 
-// async function destroyRoutineActivity(){
-//     try {
+async function getRoutineActivitiesByRoutine({ id }) {
+  try {
+    const {
+      rows: [routineActivities],
+    } = await client.query(
+      `
+        SELECT * FROM routine_activity
+        WHERE "routineId" = $1;
+        `,
+      [id]
+    );
 
-// } catch (error) {
+    return routineActivities;
+  } catch (error) {
+    throw error;
+  }
+}
 
-// }};
-
-// async function getRoutineActivitiesByRoutine(){
-//     try {
-
-//     } catch (error) {
-
-//     }
-// };
-
-// module.export = {
-// getRoutineActivityById,
-// addActivityToRoutine,
-// updateRoutineActivity,
-// destroyRoutineActivity,
-// getRoutineActivitiesByRoutine,
-// };
+module.exports = {
+  getRoutineActivityById,
+  addActivityToRoutine,
+  updateRoutineActivity,
+  destroyRoutineActivity,
+  getRoutineActivitiesByRoutine,
+};
