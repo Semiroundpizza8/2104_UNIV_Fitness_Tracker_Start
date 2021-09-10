@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const { client } = require('./client');
 
 async function createActivity({
@@ -36,3 +37,9 @@ module.exports = {
     createActivity,
     getAllActivities
 }
+=======
+const { createInitialActivities } = require("./seedData.js");
+const { client } = require("./client");
+
+module.exports = { activities };
+>>>>>>> eb3351d63f8a3956ba3d63a8d13bca6e1788d037
