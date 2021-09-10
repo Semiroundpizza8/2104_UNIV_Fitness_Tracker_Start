@@ -30,7 +30,7 @@ const {
   updateRoutineActivity,
   destroyRoutineActivity,
 } = require("../db");
-const client = require("../db/client");
+const { client } = require("../db/client");
 
 describe("Database", () => {
   beforeAll(async () => {
@@ -69,7 +69,7 @@ describe("Database", () => {
         expect(userToCreateAndUpdate.password).toBeFalsy();
       });
     });
-    describe("getUser({ username, password })", () => {
+    describe.only("getUser({ username, password })", () => {
       let verifiedUser;
       beforeAll(async () => {
         verifiedUser = await getUser(userCredentials);

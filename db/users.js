@@ -1,8 +1,12 @@
 const { createInitialUsers } = require("./seedData.js");
 const { client } = require("./client");
 
+const bcrypt = require("bcrypt");
+const SALT_COUNT = 10;
+
 // createUser({ username, password })
 async function createUser({ username, password }) {
+  const hashPassword = await bcrypt.hash(password, SALT_COUNT);
   try {
     const {
       rows: [user],
@@ -13,8 +17,10 @@ async function createUser({ username, password }) {
         ON CONFLICT (username) DO NOTHING 
         RETURNING *;
       `,
-      [username, password]
+      [username, hashPassword]
     );
+
+    delete user.password;
 
     return user;
   } catch (error) {
@@ -26,11 +32,12 @@ async function createUser({ username, password }) {
 // getUser
 
 // getUser({ username, password })
+
 async function getUser({ username, password }) {
   try {
     const { rows } = await client.query(
       `
-        SELECT id, username, password, active 
+        SELECT id, username, password, active
         FROM users;
       `,
       [username, password]
@@ -69,6 +76,7 @@ async function getUserById(userId) {
 // select a user using the user's ID. Return the user object.
 // do NOT return the password
 // getUserByUsername
+
 async function getUserByUsername(username) {
   try {
     const { rows: username } = await client.query(`
