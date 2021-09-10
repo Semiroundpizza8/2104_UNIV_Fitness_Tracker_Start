@@ -30,9 +30,29 @@ async function getAllActivities() {
     
 };
 
-//async function updateActivity()
+
+async function getActivityById(activityId) {
+    try {
+        const { rows: [ activity ] } = await client.query(`
+            SELECT * FROM activities
+            WHERE id=${activityId};
+        `);
+        return activity;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+//async function updateActivity() {
+    
 
 module.exports = {
     createActivity,
-    getAllActivities
+    getAllActivities,
+    getActivityById,
+    //updateActivity
 }
+
+
+
