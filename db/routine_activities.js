@@ -5,10 +5,8 @@ async function getRoutineActivityById(id) {
     const {
       rows: [routineActivity],
     } = await client.query(
-      `
-        SELECT * FROM routine_activity
-        WHERE id = $1;        
-        `,
+      `SELECT * FROM routine_activities
+        WHERE id = $1`,
       [id]
     );
 
@@ -28,11 +26,10 @@ async function addActivityToRoutine({
     const {
       rows: [routineActivity],
     } = await client.query(
-      `
-        INSERT INTO routine_activity("routineId", "activityId", count, duration)
+      `INSERT INTO routine_activities("routineId", "activityId", count, duration)
         VALUES($1, $2, $3, $4)
-        RETURNING *; 
-        `[(routineId, activityId, count, duration)]
+        RETURNING *;`,
+      [routineId, activityId, count, duration]
     );
 
     return routineActivity;
@@ -43,15 +40,15 @@ async function addActivityToRoutine({
 
 async function updateRoutineActivity({ id, count, duration }) {
   try {
-    const { rows: routineActivity } = await client.query(
-      `
-        UPDATE routine_activity
-        WHERE id = $1        
-        SET count = $2, duration = $3
-        `,
+    const {
+      rows: [routineActivity],
+    } = await client.query(
+      `UPDATE routine_activities
+        SET count = $2, duration = $3,
+        WHERE id = $1`,
       [id, count, duration]
     );
-
+    console.log(routineActivity);
     return routineActivity;
   } catch (error) {
     throw error;
@@ -61,16 +58,14 @@ async function updateRoutineActivity({ id, count, duration }) {
 async function destroyRoutineActivity(id) {
   try {
     const {
-      rows: [routineActivities],
+      rows: [routineActivity],
     } = await client.query(
-      `
-        DELETE FROM routine_activities
-        where id = $1
-        `,
+      `DELETE FROM routine_activities
+       WHERE id = $1`,
       [id]
     );
 
-    return routineActivities;
+    return routineActivity;
   } catch (error) {
     throw error;
   }
@@ -81,10 +76,8 @@ async function getRoutineActivitiesByRoutine({ id }) {
     const {
       rows: [routineActivities],
     } = await client.query(
-      `
-        SELECT * FROM routine_activity
-        WHERE "routineId" = $1;
-        `,
+      `SELECT * FROM routine_activities
+        WHERE "routineId" = $1`,
       [id]
     );
 

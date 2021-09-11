@@ -1,6 +1,26 @@
 const { client } = require("./client");
 
-const { getUserbyUsername } = require("./users");
+const { getUserByUsername } = require("./users");
+
+async function createRoutine({ creatorId, isPublic, name, goal }) {
+  try {
+    const {
+      rows: [routine],
+    } = await client.query(
+      `
+      INSERT INTO routines("creatorId", "isPublic", name, goal)
+      VALUES($1, $2, $3, $4)
+      ON CONFLICT (name) DO NOTHING
+      RETURNING *;    
+      `,
+      [creatorId, isPublic, name, goal]
+    );
+
+    return routine;
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function getRoutineById(id) {
   try {
@@ -20,9 +40,7 @@ async function getRoutineById(id) {
 
 async function getRoutinesWithoutActivities() {
   try {
-    const {
-      rows: [routines],
-    } = await client.query(`
+    const { rows: routines } = await client.query(`
     SELECT * FROM routines;  
     `);
     return routines;
@@ -105,36 +123,14 @@ async function getPublicRoutinesByActivity({ id }) {
   } catch (error) {}
 }
 
-async function createRoutine({ creatorId, isPublic, name, goal }) {
-  try {
-    const {
-      rows: [routine],
-    } = await client.query(
-      `
-      INSERT INTO routines("creatorId", "isPublic", name, goal)
-      VALUES($1, $2, $3, $4)
-      ON CONFLICT (name) DO NOTHING
-      RETURNING *;    
-      `,
-      [creatorId, isPublic, name, goal]
-    );
-
-    return routine;
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function updateRoutine({ id, isPublic, name, goal }) {
   try {
     const {
       rows: [routine],
     } = await client.query(
-      `
-        UPDATE routines 
-        SET "isPublic" = $2, name = $3, goal = $4
-        where id = $1 
-        `,
+      `UPDATE routines 
+       SET "isPublic" = $2, name = $3, goal = $4,
+       WHERE id = $1;`,
       [id, isPublic, name, goal]
     );
 

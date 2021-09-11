@@ -7,8 +7,8 @@ const {
   createActivity,
   createRoutine,
   getRoutinesWithoutActivities,
-  // getAllActivities,
-  // addActivityToRoutine,
+  getAllActivities,
+  addActivityToRoutine,
 } = require("./index");
 
 async function dropTables() {
@@ -32,7 +32,7 @@ async function createTables() {
     console.log("Starting to build tables...");
     // create all tables, in the correct order
     await client.query(`
-    CREATE TABLE users (
+      CREATE TABLE users(
       id SERIAL PRIMARY KEY,
       username varchar(255) UNIQUE NOT NULL,
       password varchar(255) NOT NULL);
@@ -59,8 +59,7 @@ async function createTables() {
         "activityId" INTEGER,
         FOREIGN KEY("activityId") REFERENCES activities(id),
         duration INTEGER, 
-        count INTEGER
-        );`);
+        count INTEGER);`);
     console.log("Finished builiding tables!");
   } catch (error) {
     console.error(error);
