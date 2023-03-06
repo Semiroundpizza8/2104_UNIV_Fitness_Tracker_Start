@@ -35,7 +35,7 @@ async function getRoutineById(id) {
     );
 
     return routine;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getRoutinesWithoutActivities() {
@@ -61,7 +61,7 @@ async function getAllRoutines() {
     );
 
     return routine;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getAllPublicRoutines() {
@@ -71,7 +71,7 @@ async function getAllPublicRoutines() {
     WHERE "isPublic" = true;   
     `);
     return routines;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getAllRoutinesByUser({ username }) {
@@ -88,7 +88,7 @@ async function getAllRoutinesByUser({ username }) {
     );
 
     return routines;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getPublicRoutinesByUser({ username }) {
@@ -105,7 +105,7 @@ async function getPublicRoutinesByUser({ username }) {
     );
 
     return routines;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function getPublicRoutinesByActivity({ id }) {
@@ -120,7 +120,7 @@ async function getPublicRoutinesByActivity({ id }) {
     );
 
     return routines;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 async function updateRoutine({ id, isPublic, name, goal }) {
