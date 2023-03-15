@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require('cors');
 const morgan = require('morgan');
 
+const bodyParser = require('body-parser');
+
 const apiRouter = require('./api');
 const { client } = require('./db');
 
@@ -17,7 +19,15 @@ app.use(morgan('dev'));
 //client.connect();
 //server.use('/api', apiRouter);
 
-app.use('./api', apiRouter);
+
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+    console.log("Body is now", req.body);
+    next();
+})
+
+app.use('/api', apiRouter);
 
 // app.get('/health', function (req, res, next) {
 //     res.json({ msg: 'This is CORS-enabled for all origins!' })
@@ -35,6 +45,8 @@ app.use('./api', apiRouter);
 // app.use((error, req, res, next) => {
 //     res.send(error)
 // });
+
+
 
 app.listen(PORT, async () => {
     try {

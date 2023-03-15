@@ -9,8 +9,19 @@ require('dotenv').config();
 // // attach other routers from files in this api directory (users, activities...)
 // // export the api router
 
-apiRouter.get('/health', (req, res) => {
-    res.send("Up and running!")
+// apiRouter.get('/health', (req, res) => {
+//     res.send({ message: "App Health is up and running" })
+// });
+apiRouter.use((req, res, next) => {
+    console.log(req.originalUrl);
+    next();
+})
+apiRouter.get('/health', function (req, res, send) {
+    res.send({ message: "This app is up and running, wee woo!!" })
+});
+
+apiRouter.post('/sayHello', (req, res, next) => {
+    res.send({ message: "Hello im ALIVE" })
 });
 
 // apiRouter.get('/', async (req, res) => {
